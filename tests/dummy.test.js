@@ -109,3 +109,47 @@ describe('total likes', () => {
     expect(listHelper.totalLikes(blogsWithZeroLikes)).toBe(0)
   })
 })
+
+
+describe('favorite blog', () => {
+
+  test('favorite blog of list of blogs', () => {
+    const expected =
+    {
+      title: 'Canonical string reduction',
+      author: 'Edsger W. Dijkstra',
+      likes: 12
+    }
+
+    expect(listHelper.favoriteBlog(blogs)).toEqual(expected)
+  })
+
+  test('favorite blog of list of one', () => {
+    const expected =
+     {
+       title: 'React patterns',
+       author: 'Michael Chan',
+       likes: 7
+     }
+
+    expect(listHelper.favoriteBlog(listWithOneBlog)).toEqual(expected)
+  })
+
+  test('favorite of empty list', () => {
+
+    expect(listHelper.favoriteBlog(emptyList)).toBeNull()
+  })
+
+  test('favorite blog of list with zero likes', () => {
+    const expected =
+     {
+       title: 'React patterns',
+       author: 'Michael Chan',
+       likes: 0
+     }
+
+    expect(listHelper.favoriteBlog(blogsWithZeroLikes)).toEqual(expected)
+  })
+
+})
+
