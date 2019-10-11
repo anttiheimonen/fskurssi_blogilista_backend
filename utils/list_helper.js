@@ -29,7 +29,7 @@ const mostBlogs = blogs => {
     return null
   }
 
-  const most = _(blogs)
+  const authorWithMostBlogs = _(blogs)
     // Count the number of blogs per author
     .countBy(x => x.author)
     // Compare with _reduce who has most blogs
@@ -41,7 +41,7 @@ const mostBlogs = blogs => {
           : {'author': author, 'blogs' : count })
     }, {'blogs': 0})
 
-  return most
+  return authorWithMostBlogs
 }
 
 module.exports = {
