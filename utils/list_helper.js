@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 const totalLikes = blogs => {
 
   const reducer = (accumulator, blog) => accumulator + blog.likes
@@ -22,6 +24,50 @@ const favoriteBlog = blogs => {
   }
 }
 
+const mostBlogs = blogs => {
+  if (blogs.length  === 0) {
+    return null
+  }
+
+  const most = _(blogs)
+    // Count the number of blogs per author
+    .countBy(x => x.author)
+    // Compare with _reduce who has most blogs
+    .reduce((best, count, author) => {
+      console.log(best, count, author )
+      return (
+        best.blogs > count
+          ? best
+          : {'author': author, 'blogs' : count })
+    }, {'blogs': 0})
+
+  return most
+}
+
 module.exports = {
-  totalLikes, favoriteBlog
+  totalLikes, favoriteBlog, mostBlogs
+}
+
+const mostLikes = blogs => {
+  if (blogs.length  === 0) {
+    return null
+  }
+
+  const mostLiked = _(blogs)
+    .groupBy('author')
+    .map((objs, key) => {
+      return {
+        'author': key,
+        'likes': _.sumBy(objs, 'likes')
+      }
+    })
+    .sortBy(x => x.likes)
+    .reverse()
+    .head()
+
+  return mostLiked
+}
+
+module.exports = {
+  totalLikes, favoriteBlog, mostBlogs, mostLikes
 }

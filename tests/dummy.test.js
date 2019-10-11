@@ -18,19 +18,19 @@ const blogs = [
     __v: 0
   },
   {
-    _id: '5a422b3a1b54a676234d17f9',
-    title: 'Canonical string reduction',
-    author: 'Edsger W. Dijkstra',
-    url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
-    likes: 12,
-    __v: 0
-  },
-  {
     _id: '5a422b891b54a676234d17fa',
     title: 'First class tests',
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
     likes: 10,
+    __v: 0
+  },
+  {
+    _id: '5a422b3a1b54a676234d17f9',
+    title: 'Canonical string reduction',
+    author: 'Edsger W. Dijkstra',
+    url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
+    likes: 12,
     __v: 0
   },
   {
@@ -91,65 +91,128 @@ const blogsWithZeroLikes = [
   }
 ]
 
-describe('total likes', () => {
+describe('Total likes', () => {
 
-  test('total likes of list of blogs', () => {
+  test('Total likes of list of blogs', () => {
     expect(listHelper.totalLikes(blogs)).toBe(36)
   })
 
-  test('total likes of list with one blog', () => {
+  test('Total likes of list with one blog', () => {
     expect(listHelper.totalLikes(listWithOneBlog)).toBe(7)
   })
 
-  test('total likes of empty list', () => {
+  test('Total likes of empty list', () => {
     expect(listHelper.totalLikes(emptyList)).toBe(0)
   })
 
-  test('total likes of list if blogs with zero likes', () => {
+  test('Total likes of list if blogs with zero likes', () => {
     expect(listHelper.totalLikes(blogsWithZeroLikes)).toBe(0)
   })
 })
 
 
-describe('favorite blog', () => {
+describe('Favorite blog', () => {
 
-  test('favorite blog of list of blogs', () => {
+  test('Favorite blog of list of blogs', () => {
     const expected =
     {
       title: 'Canonical string reduction',
       author: 'Edsger W. Dijkstra',
       likes: 12
     }
-
     expect(listHelper.favoriteBlog(blogs)).toEqual(expected)
   })
 
-  test('favorite blog of list of one', () => {
+  test('Favorite blog of list of one', () => {
     const expected =
      {
        title: 'React patterns',
        author: 'Michael Chan',
        likes: 7
      }
-
     expect(listHelper.favoriteBlog(listWithOneBlog)).toEqual(expected)
   })
 
-  test('favorite of empty list', () => {
+  test('Favorite blog of empty list', () => {
 
     expect(listHelper.favoriteBlog(emptyList)).toBeNull()
   })
 
-  test('favorite blog of list with zero likes', () => {
+  test('Favorite blog of list with zero likes', () => {
     const expected =
      {
        title: 'React patterns',
        author: 'Michael Chan',
        likes: 0
      }
-
     expect(listHelper.favoriteBlog(blogsWithZeroLikes)).toEqual(expected)
   })
+})
+
+
+describe('Author with most blogs', () => {
+
+  test('Author with most blogs of list', () => {
+    const expected =
+      {
+        author: 'Robert C. Martin',
+        blogs: 3
+      }
+    expect(listHelper.mostBlogs(blogs)).toEqual(expected)
+  })
+
+  test('Author with most blogs of empty list', () => {
+
+    expect(listHelper.mostBlogs(emptyList)).toBeNull()
+  })
+
+  test('Author with most blogs of list of one', () => {
+    const expected =
+    {
+      author: 'Michael Chan',
+      blogs: 1
+    }
+    expect(listHelper.mostBlogs(listWithOneBlog)).toEqual(expected)
+  })
+
+
+})
+
+
+describe('Favorite Author', () => {
+
+  test('Favorite author of list', () => {
+    const expected =
+      {
+        author: 'Edsger W. Dijkstra',
+        likes: 17
+      }
+    expect(listHelper.mostLikes(blogs)).toEqual(expected)
+  })
+
+  test('Favorite author of empty list', () => {
+
+    expect(listHelper.mostLikes(emptyList)).toBeNull()
+  })
+
+  test('Favorite author of list of one', () => {
+    const expected =
+    {
+      author: 'Michael Chan',
+      likes: 7
+    }
+    expect(listHelper.mostLikes(listWithOneBlog)).toEqual(expected)
+  })
+
+  test('Favorite author of list with zero likes', () => {
+    const expected =
+    {
+      author: 'Edsger W. Dijkstra',
+      likes: 0
+    }
+    expect(listHelper.mostLikes(blogsWithZeroLikes)).toEqual(expected)
+  })
+
 
 })
 
