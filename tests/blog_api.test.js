@@ -36,6 +36,10 @@ describe('Database operations', () => {
   //   expect(allBlogs).toContain(helper.initialBlogs[0])
   // })
 
+  test('Blogs have id-field', async () => {
+    const allBlogs = await helper.allBlogsInDB()
+    expect(allBlogs[0].id).toBeDefined()
+  })
 })
 
 afterAll(() => {
