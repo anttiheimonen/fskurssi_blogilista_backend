@@ -9,26 +9,36 @@ const initialBlogs = [
   {
     title: 'Ducktales',
     author: 'Donald Duck',
-    url: 'urlToDonaldsblog'
+    url: 'urlToDonaldsblog',
+    likes: 5
   },
   {
     title: 'Making money',
     author: 'Scrooge McDuck',
-    url: 'urlToScroogesblog'
+    url: 'urlToScroogesblog',
+    likes: 6
   },
   {
     title: 'Gladstone\'s Terrible Secret',
     author: 'Gyro Gearloose',
-    url: 'urlToGyrosblog'
+    url: 'urlToGyrosblog',
+    likes: 15
   },
 ]
 
 const newBlog = {
   title: 'Junior Woodchucks\' Guidebook',
   author: 'Huey Dewey and Louie',
-  url: 'urlToNephewsblog'
+  url: 'urlToNephewsblog',
+  likes: 8
+}
+
+const blogLikesMissing = {
+  title: 'Lucky Luck',
+  author: 'Gladstone Gander',
+  url: 'urlToGladstonesblog',
 }
 
 module.exports = {
-  allBlogsInDB, initialBlogs, newBlog
+  allBlogsInDB, initialBlogs, newBlog, blogLikesMissing
 }
