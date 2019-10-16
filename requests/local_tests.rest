@@ -13,3 +13,26 @@ content-type: application/json
 }
 
 ###
+
+POST http://localhost:3003/api/blogs/
+content-type: application/json
+
+{
+  "author": "Aku Ankka",
+  "url": "localhost",
+  "likes": 2
+}
+
+###
+
+
+POST http://localhost:3003/api/blogs/
+content-type: application/json
+
+{
+  "title": "Aku Ankan Blogi",
+  "author": "Aku Ankka",
+  "likes": 2
+}
+
+###
