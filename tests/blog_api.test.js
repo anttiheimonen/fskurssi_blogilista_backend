@@ -8,7 +8,7 @@ const helper = require('./test_helper')
 
 // Clear the database and save test blogs
 beforeEach(async () => {
-  await Blog.remove({})
+  await Blog.deleteMany({})   // .remove is deprecated. Using deleteMany instead
 
   const blogObjects = helper.initialBlogs
     .map(blog => new Blog(blog))
@@ -47,6 +47,14 @@ describe('Database operations', () => {
     await new Blog(helper.newBlog).save()
     const endBlogs = await helper.allBlogsInDB()
     expect(startBlogs.length + 1).toBe(endBlogs.length)
+  })
+
+  test('Blog without likes-value will get likes-value of 0', async () => {
+    expect(helper.blogLikesMissing.likes).toBeUndefined()
+    await new Blog(helper.blogLikesMissing).save()
+    const allBlogs = await helper.allBlogsInDB()
+    const addedBlog = allBlogs.find(blog => blog.author === 'Gladstone Gander')
+    expect(addedBlog.likes).toBe(0)
   })
 })
 

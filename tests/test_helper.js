@@ -39,6 +39,18 @@ const blogLikesMissing = {
   url: 'urlToGladstonesblog',
 }
 
+const blogTitleMissing = {
+  author: 'Magica De Spell',
+  url: 'urlToMagicasblog',
+  likes: 4
+}
+
+const blogUrlMissing = {
+  title: 'Beagle Boys',
+  author: 'Blueprints of Money Bin',
+  likes: 5
+}
+
 module.exports = {
   allBlogsInDB, initialBlogs, newBlog, blogLikesMissing
 }
