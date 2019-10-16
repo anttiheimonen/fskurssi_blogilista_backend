@@ -52,5 +52,5 @@ const blogUrlMissing = {
 }
 
 module.exports = {
-  allBlogsInDB, initialBlogs, newBlog, blogLikesMissing
+  allBlogsInDB, initialBlogs, newBlog, blogLikesMissing, blogTitleMissing, blogUrlMissing
 }

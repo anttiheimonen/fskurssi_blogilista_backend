@@ -6,7 +6,7 @@ const api = supertest(app)
 const Blog = require('../models/blog')
 const helper = require('./test_helper')
 
-// Clear the database and save test blogs
+// Clears the database and initialize test data
 beforeEach(async () => {
   await Blog.deleteMany({})   // .remove is deprecated. Using deleteMany instead
 
@@ -30,12 +30,6 @@ describe('Database operations', () => {
     expect(allBlogs.length).toBe(3)
   })
 
-  // test('Get single blog', async () => {
-  //   const allBlogs = await helper.allBlogsInDB()
-  //   expect(allBlogs).toContain(helper.initialBlogs[0])
-  // })
-
-  // Check that blogs have id-field
   test('Blogs have id-field', async () => {
     const allBlogs = await helper.allBlogsInDB()
     expect(allBlogs[0].id).toBeDefined()
@@ -56,6 +50,21 @@ describe('Database operations', () => {
     const addedBlog = allBlogs.find(blog => blog.author === 'Gladstone Gander')
     expect(addedBlog.likes).toBe(0)
   })
+
+  test('Blog without url cannot be added to database', async () => {
+    await api
+      .post('/api/blogs')
+      .send(helper.blogUrlMissing)
+      .expect(400)
+  } )
+
+  test('Blog without title cannot be added to database', async () => {
+    await api
+      .post('/api/blogs')
+      .send(helper.blogTitleMissing)
+      .expect(400)
+  } )
+
 })
 
 afterAll(() => {
