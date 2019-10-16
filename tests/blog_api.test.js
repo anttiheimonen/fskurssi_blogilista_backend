@@ -32,13 +32,21 @@ describe('Database operations', () => {
 
   // test('Get single blog', async () => {
   //   const allBlogs = await helper.allBlogsInDB()
-
   //   expect(allBlogs).toContain(helper.initialBlogs[0])
   // })
 
+  // Check that blogs have id-field
   test('Blogs have id-field', async () => {
     const allBlogs = await helper.allBlogsInDB()
     expect(allBlogs[0].id).toBeDefined()
+  })
+
+  test('Add a new blog', async () => {
+    const startBlogs = await helper.allBlogsInDB()
+
+    await new Blog(helper.newBlog).save()
+    const endBlogs = await helper.allBlogsInDB()
+    expect(startBlogs.length + 1).toBe(endBlogs.length)
   })
 })
 

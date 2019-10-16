@@ -17,12 +17,18 @@ const initialBlogs = [
     url: 'urlToScroogesblog'
   },
   {
-    title: 'Gladstone\'s Terrible Secre',
+    title: 'Gladstone\'s Terrible Secret',
     author: 'Gyro Gearloose',
     url: 'urlToGyrosblog'
   },
 ]
 
+const newBlog = {
+  title: 'Junior Woodchucks\' Guidebook',
+  author: 'Huey Dewey and Louie',
+  url: 'urlToNephewsblog'
+}
+
 module.exports = {
-  allBlogsInDB, initialBlogs
+  allBlogsInDB, initialBlogs, newBlog
 }
