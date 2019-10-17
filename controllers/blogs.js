@@ -41,14 +41,20 @@ blogsRouter.put('/:id', async (request, response, next) => {
   const changedBlog = {
     likes: request.body.likes
   }
-  Logger.info(changedBlog)
   try {
-    const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, changedBlog, { new: true, runValidators: true, context: 'query' })
+    const updatedBlog = await Blog.findByIdAndUpdate(
+      request.params.id,
+      changedBlog,
+      {
+        new: true,
+        runValidators: true,
+        context: 'query'
+      }
+    )
     response.json(updatedBlog.toJSON())
   }catch (exception) {
     next(exception)
   }
 })
-
 
 module.exports = blogsRouter
