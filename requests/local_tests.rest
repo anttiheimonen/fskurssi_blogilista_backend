@@ -36,3 +36,15 @@ content-type: application/json
 }
 
 ###
+
+DELETE http://localhost:3003/api/blogs/
+content-type: application/json
+
+###
+
+PUT http://localhost:3003/api/blogs/5d9f3d65e1140d4449f20dba
+content-type: application/json
+
+{
+  "likes": 99
+}
