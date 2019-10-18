@@ -4,14 +4,6 @@ const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 const Logger = require('../utils/logger')
 
-const getTokenFrom = request => {
-  const authorization = request.get('authorization')
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    return authorization.substring(7)
-  }
-  return null
-}
-
 blogsRouter.get('/', async (request, response, next) => {
   try {
     const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
@@ -23,11 +15,9 @@ blogsRouter.get('/', async (request, response, next) => {
 
 blogsRouter.post('/', async (request, response, next) => {
   const body = request.body
-  const token = getTokenFrom(request)
 
-  Logger.info(token)
   try {
-    const decodedToken = jwt.verify(token, process.env.SECRET)
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
     Logger.info(decodedToken)
     const user = await User.findById(decodedToken.id)
 
@@ -37,7 +27,6 @@ blogsRouter.post('/', async (request, response, next) => {
       url: body.url,
       user: user.id
     })
-
 
     const savedBlog = await blog.save()
     Logger.info('New blog created')
