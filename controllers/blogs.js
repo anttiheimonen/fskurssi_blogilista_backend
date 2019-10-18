@@ -15,6 +15,10 @@ blogsRouter.get('/', async (request, response, next) => {
 
 blogsRouter.post('/', async (request, response, next) => {
   const body = request.body
+  if(request.token === null) {
+    return response.status(401).json({error: 'Token is missing'})
+  }
+  Logger.info(request.token)
 
   try {
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
@@ -44,6 +48,9 @@ blogsRouter.post('/', async (request, response, next) => {
 })
 
 blogsRouter.delete('/:id', async (request, response, next) => {
+  if(request.token === null) {
+    return response.status(401).json({error: 'Token is missing'})
+  }
   try {
     await Blog.findByIdAndRemove(request.params.id)
     response.status(204).end()
@@ -57,8 +64,7 @@ blogsRouter.put('/:id', async (request, response, next) => {
   if (request.body.likes === null || request.body.likes == undefined) {
     // Could this be moved to Mongoose's validation?
     Logger.info('Likes is null or undefined')
-    response.status(400).end()
-    return
+    return response.status(400).end()
   }
   const changedBlog = {
     likes: request.body.likes
