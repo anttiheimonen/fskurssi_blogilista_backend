@@ -1,14 +1,34 @@
 const bcrypt = require('bcrypt')
-const blogsRouter = require('express').Router()
-const Blog = require('../models/blog')
+const usersRouter = require('express').Router()
+const User = require('../models/user')
 const Logger = require('../utils/logger')
 
-userRouter.post('/', async (request, response, next) => {
+usersRouter.post('/', async (request, response, next) => {
   try {
-    response.status(400).end()
+    const body = request.body
+    const saltRounds = 10
+    const passwordHash = await bcrypt.hash(body.password, saltRounds)
+    const user = new User( {
+      username: body.username,
+      name: body.name,
+      passwordHash: passwordHash
+    })
+    Logger.info('New user: \n' + user)
+
+    const savedUser = await user.save()
+    response.json(savedUser.toJSON())
   } catch (exception) {
     next(exception)
   }
 })
 
-module.exports = userRouter
+usersRouter.get('/', async (request, response, next) => {
+  try {
+    const user = await User.find({})
+    response.json(user.map(user => user.toJSON()))
+  } catch (exception) {
+    next(exception)
+  }
+})
+
+module.exports = usersRouter
