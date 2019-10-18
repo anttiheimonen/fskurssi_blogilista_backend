@@ -81,6 +81,31 @@ const newUser = {
   password: 'dummy004'
 }
 
+const newUserTooShortUsername = {
+  username: 'DD',
+  name: 'Dewey Duck',
+  password: 'dummy005'
+}
+
+const newUserTooShortPassword = {
+  username: 'HueyD',
+  name: 'Huey Duck',
+  password: '12'
+}
+
+const newUserWithoutPassword = {
+  username: 'HueyD',
+  name: 'Huey Duck',
+  password: '12'
+}
+
+const newUserWithExistingUsername= {
+  username: 'DonaldD',
+  name: 'Donald Drump',
+  password: 'dummy006'
+}
+
+
 module.exports = {
   allBlogsInDB,
   initialBlogs,
@@ -90,5 +115,9 @@ module.exports = {
   blogUrlMissing,
   allUsersInDB,
   initialUsers,
-  newUser
+  newUser,
+  newUserTooShortUsername,
+  newUserTooShortPassword,
+  newUserWithoutPassword,
+  newUserWithExistingUsername
 }

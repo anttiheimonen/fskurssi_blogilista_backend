@@ -89,7 +89,6 @@ describe('User operations', () => {
     await Promise.all(promiseArray)
   })
 
-
   test('Users are returned as json', async () => {
     await api
       .get('/api/users')
@@ -109,7 +108,53 @@ describe('User operations', () => {
     const endUsers = await helper.allUsersInDB()
     expect(startUsers.length + 1).toBe(endUsers.length)
   })
+
+  test('Password hash is not returned with user info', async () => {
+    const response = await api
+      .get('/api/users')
+
+    expect(response.body[0].passwordHash).toBeUndefined()
+  })
+
+  test('Username for a new user must be at least 3 characters long', async () => {
+    const user = helper.newUserTooShortUsername
+    const expectedErrorMsg = 'User validation failed: username: Path `username` (`DD`) is shorter than the minimum allowed length (3).'
+    const response = await api
+      .post('/api/users')
+      .send(user)
+      .expect(400)
+    expect(response.body.error).toBe(expectedErrorMsg)
+  })
+
+  test('Username for a new user must be unique', async () => {
+    const user = helper.newUserWithExistingUsername
+    const expectedErrorMsg = 'User validation failed: username: Error, expected `username` to be unique. Value: `DonaldD`'
+    const response = await api
+      .post('/api/users')
+      .send(user)
+      .expect(400)
+    expect(response.body.error).toBe(expectedErrorMsg)
+  })
+
+  test('Password for a new user must be at least 3 characters long', async () => {
+    const user = helper.newUserTooShortPassword
+    const response = await api
+      .post('/api/users')
+      .send(user)
+      .expect(400)
+    expect(response.body.error).toBe('password must be at least 3 characters long')
+  })
+
+  test('Request without password returns message about minimum length', async () => {
+    const user = helper.newUserWithoutPassword
+    const response = await api
+      .post('/api/users')
+      .send(user)
+      .expect(400)
+    expect(response.body.error).toBe('password must be at least 3 characters long')
+  })
 })
+
 
 afterAll(() => {
   mongoose.connection.close()
