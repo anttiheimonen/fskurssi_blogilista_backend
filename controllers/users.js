@@ -16,7 +16,8 @@ usersRouter.post('/', async (request, response, next) => {
     const user = new User( {
       username: body.username,
       name: body.name,
-      passwordHash: passwordHash
+      passwordHash: passwordHash,
+      blogs: []
     })
     Logger.info('New user: \n' + user)
 
@@ -29,7 +30,7 @@ usersRouter.post('/', async (request, response, next) => {
 
 usersRouter.get('/', async (request, response, next) => {
   try {
-    const user = await User.find({})
+    const user = await User.find({}).populate('blogs', { title: 1, author: 1, url: 1 })
     response.json(user.map(user => user.toJSON()))
   } catch (exception) {
     next(exception)

@@ -19,13 +19,21 @@ blogsRouter.post('/', async (request, response, next) => {
 
   const blog = new Blog({
     title: body.title,
-    authot: body.author,
+    author: body.author,
     url: body.url,
     user: user.id
   })
-  // const blog = new Blog(request.body)
+
   try {
     const savedBlog = await blog.save()
+    Logger.info('New blog created')
+    // Add blog's id to users record
+    const blogs = user.blogs.concat(savedBlog._id)
+    await User.findByIdAndUpdate(user._id,
+      {
+        blogs: blogs
+      })
+    Logger.info('Blog id saved to user record')
     response.json(savedBlog.toJSON())
   } catch(exception) {
     next(exception)
