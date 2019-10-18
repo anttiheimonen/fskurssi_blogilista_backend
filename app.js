@@ -26,6 +26,7 @@ mongoose.connect(config.MONGODB_URI,
 
 app.use(cors())
 app.use(express.static('build'))
+app.use(middleware.tokenExtractor)
 app.use(bodyParser.json())
 app.use(middleware.requestLogger)
 

@@ -23,6 +23,18 @@ const errorHandler = (error, req, res, next) => {
   next(error)
 }
 
+// Extracts token from bearer authorization and places it to
+// request.token. If request does not have authorization,
+// request token is set to null.
+const tokenExtractor = (request, response, next) => {
+  request.token = null
+  const authorization = request.get('authorization')
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    request.token =  authorization.substring(7)
+  }
+  next()
+}
+
 module.exports = {
-  requestLogger, unknownEndpoint, errorHandler
+  requestLogger, unknownEndpoint, errorHandler, tokenExtractor
 }
