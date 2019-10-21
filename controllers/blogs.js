@@ -48,12 +48,31 @@ blogsRouter.post('/', async (request, response, next) => {
 })
 
 blogsRouter.delete('/:id', async (request, response, next) => {
+  // This part is repeated in an other route. Could be in a middleware?
   if(request.token === null) {
     return response.status(401).json({error: 'Token is missing'})
   }
+  Logger.info(request.token)
+
   try {
-    await Blog.findByIdAndRemove(request.params.id)
-    response.status(204).end()
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    const blog = await Blog.findById(request.params.id)
+    Logger.info(blog)
+    if (blog === null) {
+      // Blog does does not exist.
+      return response.status(204).end()
+    }
+
+    // Check that requester is the owner of blog and delete
+    if (blog.user.toString() !== decodedToken.id.toString()){
+      Logger.info('Unauthorized request')
+      return response.status(401).json({error: 'Unauthorized request'})
+    } else {
+      Logger.info('Deleting blog')
+      await Blog.findByIdAndRemove(request.params.id)
+      response.status(204).end()
+    }
+
   }catch (exception) {
     next(exception)
   }
